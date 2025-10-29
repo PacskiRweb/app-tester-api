@@ -1,8 +1,18 @@
 const { getRandomInt } = require("../../tools/helper");
+const path = require("path");
+const fs = require("fs");
 
 class Scraper {
-  async screenshot(filename) {
-    this.page.screenshot({ path: `${filename}.png`, fullPage: true });
+  async screenshot(scraper, filename) {
+    const screenshotDir = path.join(__dirname, "../../assets/screenshots");
+    
+    // Créer le dossier s'il n'existe pas
+    if (!fs.existsSync(screenshotDir)) {
+      fs.mkdirSync(screenshotDir, { recursive: true });
+    }
+    
+    const screenshotPath = path.join(screenshotDir, `${filename}.png`);
+    await scraper.page.screenshot({ path: screenshotPath, fullPage: true });
   }
 
   async delay(time) {

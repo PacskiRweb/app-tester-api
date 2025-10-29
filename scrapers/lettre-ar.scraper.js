@@ -14,6 +14,7 @@ class LettreARScraper extends Scraper {
       const scraper = await this.initialisation();
       await scraper.page.goto(lettreArConfig.tests.tunnel.url);
       await this.removeCookieBanner(scraper);
+      await this.screenshot(scraper, "testTunnel");
 
       return {
         success: true,
@@ -37,10 +38,7 @@ class LettreARScraper extends Scraper {
 
   async removeCookieBanner(scraper) {
     try {
-      await clickElement(
-        scraper,
-        'button[data-cookiefirst-action="accept"]'
-      );
+      await clickElement(scraper, 'button[data-cookiefirst-action="accept"]');
     } catch (error) {
       throw new Error(error.message);
     }
