@@ -5,12 +5,12 @@ const fs = require("fs");
 class Scraper {
   async screenshot(scraper, filename) {
     const screenshotDir = path.join(__dirname, "../../assets/screenshots");
-    
+
     // Créer le dossier s'il n'existe pas
     if (!fs.existsSync(screenshotDir)) {
       fs.mkdirSync(screenshotDir, { recursive: true });
     }
-    
+
     const screenshotPath = path.join(screenshotDir, `${filename}.png`);
     await scraper.page.screenshot({ path: screenshotPath, fullPage: true });
   }
@@ -31,8 +31,10 @@ class Scraper {
 
       const browser = await puppeteer.launch({
         headless: process.env.HEADLESS === "true",
+        args: ["--window-size=1280,800"],
       });
       const page = await browser.newPage();
+      await page.setViewport({ width: 1280, height: 800 });
 
       return {
         browser: await browser,
